@@ -1,0 +1,203 @@
+* {
+  box-sizing: border-box;
+}
+
+html,body,#app {
+  height:100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #eee;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+h1{
+  font-weight: 200;
+  color: #3b414c;
+  font-size: 20px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.app {
+  white-space: nowrap;
+  height:100%;
+}
+
+.list {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  white-space: normal;
+  height: 100%;
+  width: 33%;
+  padding: 0 20px;
+  overflow: auto;
+}
+
+.list:not(:last-child):after{
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 99%;
+  background: linear-gradient(to bottom, #eee 0%, #ccc 50%, #eee 100%) fixed;
+}
+
+.card {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+  width: 100%;
+  padding: 10px 10px 10px 15px;
+  margin: 0 0 10px 0;
+  overflow: auto;
+  border: 1px solid #e5e5df;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.card_title {
+  font-weight: bold;
+  border-bottom: solid 5px transparent;
+}
+
+.card_title:before {
+    display: inline-block;
+    width: 1em;
+    font-family: FontAwesome;
+    content: "\f0da";
+}
+
+.card_title_is_open {
+    font-weight: bold;
+    border-bottom: solid 5px transparent;
+    cursor: pointer;
+}
+  
+.card_title_is_open:before {
+    display: inline-block;
+    width: 1em;
+    font-family: FontAwesome;
+    content: "\f0d7";
+}
+
+.checklist_task:first-child {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: dashed 1px #ddd;
+}
+
+.checklist_task span.done {
+  text-decoration: line-through;
+}
+
+/* added on 8/8 */
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0; left: 0; bottom: 0; right: 0;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+  .modal-card {
+    position: absolute;
+    width: 450px;
+    height: 200px;
+    margin: auto;
+    padding: 15px;
+    top: 0; left: 0; bottom: 100px; right: 0;
+    z-index: 3;
+    background-color: white;
+  }
+  
+  .modal-card input[type=text], 
+  .modal-card textarea {
+    display: block;
+    width : 100%;
+    margin: 3px 0;
+    font-size: 13px;
+    border: none;
+  }
+  
+  .modal-card textarea {
+    height: 50px;
+  }
+  
+  .modal-card input[type=text] {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .modal-card input[type=text]:focus,
+  .modal-card textarea:focus {
+    outline: dashed thin #999;
+    outline-offset: 2px;
+  }
+  
+  .modal-card label {
+    margin: 3px 0 7px 3px;
+    color: #a7a7a7;
+    display: inline-block;
+    width: 60px;
+  }
+  
+  .actions {
+    margin-top: 10px;
+    text-align: right;
+  }
+  
+  .modal-card button {
+    font-size:14px;
+    padding: 8px;
+  }
+
+
+.float-button {
+  position: absolute;
+  height: 56px;
+  width: 56px;
+  z-index: 2;
+  right: 20px;
+  bottom: 20px;
+  background: #D43A2F;
+  color: white;
+  border-radius: 100%;
+  font-size: 34px;
+  text-align: center;
+  text-decoration: none;
+  line-height: 50px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.card_edit{
+  position: absolute;
+  top:10px;
+  right: 10px;
+  opacity: 0;
+  transition: opacity .25s ease-in;
+}
+
+.card:hover .card_edit{
+  opacity: 1;
+}
+.card_edit .edit-icon {
+  color: #999;
+  font-size: 17px;
+  cursor: pointer;
+}
+.card_edit .remove-icon {
+  color: #d66;
+  font-size: 17px;
+  cursor: pointer;
+}
