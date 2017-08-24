@@ -2,26 +2,27 @@ import React from 'react';
 
 export default class ModalDialog extends React.Component {
     handleClick() {
-        const id = this.props.draft.get('id');
         const title = this.props.draft.get('title');
-        const description = this.props.draft.get('description');
-        const status = this.props.draft.get('status');
-        
-        if (id === '') {
-            this.props.addCard({
-                title: title,
-                description: description,
-                status: status
-            });
-        } else {
-            this.props.updateCard({
-                id: id,
-                title: title,
-                description: description,
-                status: status
-            });            
+        if (title.trim() !== "") {
+            const id = this.props.draft.get('id');
+            const description = this.props.draft.get('description');
+            const status = this.props.draft.get('status');
+            
+            if (id === '') {
+                this.props.addCard({
+                    title: title,
+                    description: description,
+                    status: status
+                });
+            } else {
+                this.props.updateCard({
+                    id: id,
+                    title: title,
+                    description: description,
+                    status: status
+                });            
+            }
         }
-        
         this.props.closeDraft();
     }
     

@@ -4,7 +4,9 @@ export default class CheckList extends React.Component {
     checkInputKeyPress(evt) {
         if (evt.key == 'Enter') {
             const taskName = evt.target.value;
-            this.props.addTask(taskName);
+            if (taskName.trim() !== '') {
+                this.props.addTask(taskName);
+            }
             evt.target.value = '';
         }
     }
