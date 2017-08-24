@@ -10,16 +10,16 @@ export default class Card extends React.Component {
         }
     }
     
-    handleAddTask(cardId, taskName) {
-        this.props.addTask(cardId, taskName);
+    handleAddTask(taskName) {
+        this.props.addTask(this.props.card.get('id'), taskName);
     }
     
-    handleRemoveTask(cardId, taskId) {
-        this.props.removeTask(cardId, taskId);
+    handleRemoveTask(taskId) {
+        this.props.removeTask(this.props.card.get('id'), taskId);
     }
     
-    handleToggleTask(cardId, taskId) {
-        this.props.toggleTask(cardId, taskId);
+    handleToggleTask(taskId) {
+        this.props.toggleTask(this.props.card.get('id'), taskId);
     }
 
     handleClick() {

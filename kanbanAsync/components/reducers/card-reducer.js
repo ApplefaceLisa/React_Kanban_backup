@@ -1,7 +1,11 @@
 import * as Immutable from 'immutable';
 import uuidv4 from 'uuid/v4';
 
-import {ADD_TASK, TOGGLE_TASK, REMOVE_TASK} from '../actions/task-actions';
+import {ADD_TASK, ADD_TASK_SUCCESS, ADD_TASK_FAILURE,
+        TOGGLE_TASK, TOGGLE_TASK_SUCCESS, TOGGLE_TASK_FAILURE,
+        REMOVE_TASK, REMOVE_TASK_SUCCESS, REMOVE_TASK_FAILURE} 
+        from '../actions/task-actions';
+        
 import {ADD_CARD, ADD_CARD_SUCCESS, ADD_CARD_FAILURE,
         UPDATE_CARD, UPDATE_CARD_SUCCESS, UPDATE_CARD_FAILURE, 
         REMOVE_CARD, REMOVE_CARD_SUCCESS, REMOVE_CARD_FAILURE,
@@ -13,6 +17,7 @@ const TaskRecord = Immutable.Record({
     name: '',
     done: false
 });
+
 const CardRecord = Immutable.Record({
     id: '',
     title: '',
@@ -26,7 +31,7 @@ const StateRecord = Immutable.Record({
     cards: Immutable.List(),
     previousCards: undefined,
     error: undefined,
-})
+});
 
 function createInitialState() {
     return new StateRecord();
@@ -58,7 +63,7 @@ function processResponse(response) {
 }
 
 export function reduce(state = createInitialState(), action) {
-    let cardId, taskId, cardIndex, taskIndex, card, task, cardObj;
+    let cardId, taskId, cardIndex, taskIndex, card, task, cardObj, taskName;
     
     switch(action.type) {
         case FETCH_CARDS_REQUEST:
@@ -135,7 +140,95 @@ export function reduce(state = createInitialState(), action) {
                         .set('previousCards', undefined)
                         .set('error', 'Card cannot be updated');
                         
+        case ADD_TASK:
+            cardId = action.payload.cardId;
+            taskName = action.payload.taskName;
+            
+            task = new TaskRecord({
+                id: uuidv4(),
+                name: taskName,
+                done: false
+            });
+            
+            cardIndex = state.get('cards').findIndex(
+                (c) => c.get('id') === cardId
+            )
+            card = state.get('cards').get(cardIndex);
+            
+            return state.set('previousCards', state.get('cards'))
+                        .set('cards', state.get('cards').setIn([cardIndex, 'tasks'], card.get('tasks').push(task)));
+                        
+        case ADD_TASK_SUCCESS:
+            card = action.payload;
+            cardId = card._id;
+            task = card.tasks[card.tasks.length-1];
+            
+            task = new TaskRecord(
+                            Object.assign({}, task, {
+                                id: task._id
+                            })
+                        );
+            cardIndex = state.get('previousCards').findIndex(
+                (c) => c.get('id') === cardId
+            )
+            card = state.get('previousCards').get(cardIndex);
+            
+            return state.set('cards', state.get('previousCards').setIn([cardIndex, 'tasks'], card.get('tasks').push(task)))
+                        .set('previousCards', undefined);
+                
+        case ADD_TASK_FAILURE:
+            return state.set('cards', state.get('previousCards'))
+                        .set('previousCards', undefined)
+                        .set('error', 'Task cannot be added');
+
+        case TOGGLE_TASK:
+            cardId = action.payload.cardId;
+            taskId = action.payload.taskId;
+            
+            cardIndex = state.get('cards').findIndex(
+                (c) => c.get('id') === cardId
+            );
+            card = state.get('cards').get(cardIndex);
+            taskIndex = card.get('tasks').findIndex(
+                (t) => t.get('id') === taskId
+            );
+            
+            return state.set('previousCards', state.get('cards'))
+                        .set('cards', state.get('cards').setIn([cardIndex, 'tasks', taskIndex, 'done'],
+                                                                !state.get('cards').getIn([cardIndex, 'tasks', taskIndex, 'done'])));
+        case TOGGLE_TASK_SUCCESS:
+            return state.set('previousCards', undefined);
+            
+        case TOGGLE_TASK_FAILURE:
+            return state.set('cards', state.get('previousCards'))
+                        .set('previousCards', undefined)
+                        .set('error', 'Task cannot be toggled');
+            
+        case REMOVE_TASK:
+            cardId = action.payload.cardId;
+            taskId = action.payload.taskId;  
+            
+            cardIndex = state.get('cards').findIndex(
+                (c) => c.get('id') === cardId
+            );
+            card = state.get('cards').get(cardIndex);
+            taskIndex = card.get('tasks').findIndex(
+                (t) => t.get('id') === taskId
+            );
+            
+            return state.set('previousCards', state.get('cards'))
+                        .set('cards', state.get('cards').deleteIn([cardIndex, 'tasks', taskIndex]));                        
+        
+        case REMOVE_CARD_SUCCESS:
+            return state.set('previousCards', undefined);
+            
+        case REMOVE_CARD_FAILURE:
+            return state.set('cards', 'previousCards')
+                        .set('previousCards', undefined)
+                        .set('error', 'Task cannot be removed');
+                        
         default:
             return state;
     }
 }
+

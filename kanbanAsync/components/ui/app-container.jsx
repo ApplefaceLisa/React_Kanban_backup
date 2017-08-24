@@ -22,13 +22,13 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(CardActions.removeCard(cardId))  
         },
         addTask: (cardId, taskName) => {
-            dispatch(TaskActions.add(cardId, taskName));
+            dispatch(TaskActions.addTask(cardId, taskName));
         },
         toggleTask: (cardId, taskId) => {
-            dispatch(TaskActions.toggle(cardId, taskId));
+            dispatch(TaskActions.toggleTask(cardId, taskId));
         },
         removeTask: (cardId, taskId) => {
-            dispatch(TaskActions.remove(cardId, taskId));
+            dispatch(TaskActions.removeTask(cardId, taskId));
         },
         openDraft: (cardObj) => {
             dispatch(DraftActions.open(cardObj));
