@@ -1,3 +1,6 @@
+# set up node_module
+npm install
+
 # set up MongoDB (do once)
 $ sudo apt-get install mongodb-org
 
