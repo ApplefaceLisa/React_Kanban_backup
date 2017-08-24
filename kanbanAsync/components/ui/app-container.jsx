@@ -24,8 +24,8 @@ const mapDispatchToProps = (dispatch) => {
         addTask: (cardId, taskName) => {
             dispatch(TaskActions.addTask(cardId, taskName));
         },
-        toggleTask: (cardId, taskId) => {
-            dispatch(TaskActions.toggleTask(cardId, taskId));
+        toggleTask: (cardId, taskId, status) => {
+            dispatch(TaskActions.toggleTask(cardId, taskId, status));
         },
         removeTask: (cardId, taskId) => {
             dispatch(TaskActions.removeTask(cardId, taskId));

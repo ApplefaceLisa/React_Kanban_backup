@@ -21,7 +21,7 @@ export default class CheckList extends React.Component {
                         type = "checkbox"
                         checked = {task.get('done')}
                         onChange = {
-                            (evt) => that.props.toggleTask(task.get('id'))
+                            (evt) => that.props.toggleTask(task.get('id'), task.get('done'))
                         }
                     />
                     <span className = {task.get('done') ? 'done' : ''}

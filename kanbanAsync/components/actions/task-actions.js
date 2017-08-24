@@ -62,9 +62,10 @@ function toggle(cardId, taskId) {
     }
 }
 
-function toggleTaskSuccess() {
+function toggleTaskSuccess(card) {
     return {
-        type: TOGGLE_TASK_SUCCESS
+        type: TOGGLE_TASK_SUCCESS,
+        payload: card
     }
 }
 
@@ -75,12 +76,17 @@ function toggleTaskFailure(err) {
     }
 }
 
-export function toggleTask(cardId, taskId) {
+export function toggleTask(cardId, taskId, status) {
+    console.log("status ", status);
     return (dispatch) => {
         dispatch(toggle(cardId, taskId));
         
-        axios.put(`${API_URL}/cards/${cardId}/tasks/${taskId}`)
-        .then((response) => dispatch(toggleTaskSuccess()))
+        axios.put(
+            `${API_URL}/cards/${cardId}/tasks/${taskId}`,
+            {taskstatus : status},
+            API_JSON_HEADERS
+        )
+        .then((response) => dispatch(toggleTaskSuccess(response.data)))
         .catch((err) => dispatch(toggleTaskFailure(err)));
     }
 }
@@ -99,9 +105,10 @@ function remove(cardId, taskId) {
     }
 }
 
-function removeTaskSuccess() {
+function removeTaskSuccess(msg) {
     return {
-        type: REMOVE_TASK_SUCCESS
+        type: REMOVE_TASK_SUCCESS,
+        payload: msg
     }
 }
 
@@ -117,7 +124,7 @@ export function removeTask(cardId, taskId) {
         dispatch(remove(cardId, taskId));
         
         axios.delete(`${API_URL}/cards/${cardId}/tasks/${taskId}`)
-        .then((response) => dispatch(removeTaskSuccess()))
+        .then((response) => dispatch(removeTaskSuccess(response.data)))
         .catch((err) => dispatch(removeTaskFailure(err)));
     }
 }

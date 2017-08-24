@@ -18,8 +18,8 @@ export default class Card extends React.Component {
         this.props.removeTask(this.props.card.get('id'), taskId);
     }
     
-    handleToggleTask(taskId) {
-        this.props.toggleTask(this.props.card.get('id'), taskId);
+    handleToggleTask(taskId, prevStatus) {
+        this.props.toggleTask(this.props.card.get('id'), taskId, !prevStatus);
     }
 
     handleClick() {
