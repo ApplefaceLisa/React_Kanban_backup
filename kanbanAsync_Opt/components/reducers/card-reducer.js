@@ -22,6 +22,8 @@ const CardRecord = Immutable.Record({
     id: '',
     title: '',
     description: '',
+    priority: '',
+    assignee: '',
     status: '',
     tasks: undefined
 });
