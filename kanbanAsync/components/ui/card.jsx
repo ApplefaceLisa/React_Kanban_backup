@@ -10,16 +10,16 @@ export default class Card extends React.Component {
         }
     }
     
-    handleAddTask(taskName) {
-        this.props.addTask(this.props.id, taskName);
+    handleAddTask(cardId, taskName) {
+        this.props.addTask(cardId, taskName);
     }
     
-    handleRemoveTask(taskId) {
-        this.props.removeTask(this.props.id, taskId);
+    handleRemoveTask(cardId, taskId) {
+        this.props.removeTask(cardId, taskId);
     }
     
-    handleToggleTask(taskId) {
-        this.props.toggleTask(this.props.id, taskId);
+    handleToggleTask(cardId, taskId) {
+        this.props.toggleTask(cardId, taskId);
     }
 
     handleClick() {
@@ -29,6 +29,11 @@ export default class Card extends React.Component {
     }
     
     render() {
+        let cardId = this.props.card.get('id');
+        let title = this.props.card.get('title');
+        let description = this.props.card.get('description');
+        let tasks = this.props.card.get('tasks');
+        
         let className = 'hidden';
         if (this.state.showDetails) {
             className = '';
@@ -36,25 +41,30 @@ export default class Card extends React.Component {
         return (
             <div className="card">
                 <div className = "card_edit">
-                    <span className = "fa fa-pencil edit-icon"/>
+                    <span 
+                        className = "fa fa-pencil edit-icon"
+                        onClick = {
+                            (evt) => this.props.editCard(this.props.card)
+                        }
+                    />
                     {" "}
                     <span 
                         className = "fa fa-times remove-icon"
                         onClick = {
-                            (evt) => this.props.removeCard(this.props.id)
+                            (evt) => this.props.removeCard(cardId)
                         }
                     />
                 </div>
                 <div 
                     className = { this.state.showDetails ? "card_title_is_open" : "card_title" }
                     onClick = { this.handleClick.bind(this) }
-                >{this.props.title}</div>
+                >{title}</div>
                 <div 
                     className= {className}
                 >
-                    <div>{this.props.description}</div>
+                    <div>{description}</div>
                     <CheckList
-                        tasks = {this.props.tasks}
+                        tasks = {tasks}
 
                         addTask = {this.handleAddTask.bind(this)}
                         toggleTask = {this.handleToggleTask.bind(this)}

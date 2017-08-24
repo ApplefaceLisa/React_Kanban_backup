@@ -1,19 +1,9 @@
 import axios from 'axios';
 
-const API_URL = 'https://mongo-server-lisali.c9users.io:8080/api';
+const API_URL = 'https://kanban-server-lisali.c9users.io:8080/api';
 const API_JSON_HEADERS = {
     'Content-Type': 'application/json'
 };
-
-export const UPDATE_CARD = 'UPDATE_CARD';
-
-export function update(cardObj) {
-    return {
-        type: UPDATE_CARD,
-        payload: cardObj
-    }
-}
-
 
 export const FETCH_CARDS_REQUEST = 'FETCH_CARDS_REQUEST';
 export const FETCH_CARDS_SUCCESS = 'FETCH_CARDS_SUCCESS';
@@ -128,5 +118,39 @@ export function removeCard(cardId) {
         axios.delete(`${API_URL}/cards/${cardId}`)
         .then((response) => dispatch(removeCardSuccess()))
         .catch((err) => dispatch(removeCardFailure(err)));
+    }
+}
+
+export const UPDATE_CARD = 'UPDATE_CARD';
+export const UPDATE_CARD_SUCCESS = 'UPDATE_CARD_SUCCESS';
+export const UPDATE_CARD_FAILURE = 'UPDATE_CARD_FAILURE';
+
+function update(card) {
+    return {
+        type: UPDATE_CARD,
+        payload: card
+    }
+}
+
+function updateCardSuccess() {
+    return {
+        type: UPDATE_CARD_SUCCESS
+    }
+}
+
+function updateCardFailure(err) {
+    return {
+        type: UPDATE_CARD_FAILURE,
+        payload: err
+    }
+}
+
+export function updateCard(cardObj) {
+    return (dispatch) => {
+        dispatch(update(cardObj));
+        
+        axios.put(`${API_URL}/cards/${cardObj.id}`)
+        .then((response) => dispatch(updateCardSuccess()))
+        .catch((err) => dispatch(updateCardFailure(err)));
     }
 }

@@ -46,7 +46,12 @@ export default class ModalDialog extends React.Component {
                     />
                     <div>
                         <label>Status</label>
-                        <select>
+                        <select
+                            value = {this.props.draft.get('status')}
+                            onChange = {
+                                (evt) => this.props.updateDraft('status', evt.target.value)
+                            }
+                        >
                             <option value="todo">To Do</option>
                             <option value="in-progress">In Progress</option>
                             <option value="done">Done</option>

@@ -22,6 +22,7 @@ export default class KanbanBoard extends React.Component {
                     addTask = {this.props.addTask}
                     toggleTask = {this.props.toggleTask}
                     removeTask = {this.props.removeTask}
+                    editCard   = {this.props.openDraft}
                     removeCard = {this.props.removeCard}
                 />
                 <List
@@ -34,6 +35,7 @@ export default class KanbanBoard extends React.Component {
                     addTask = {this.props.addTask}
                     toggleTask = {this.props.toggleTask}
                     removeTask = {this.props.removeTask}
+                    editCard   = {this.props.openDraft}
                     removeCard = {this.props.removeCard}
                 />
                 <List
@@ -46,6 +48,7 @@ export default class KanbanBoard extends React.Component {
                     addTask = {this.props.addTask}
                     toggleTask = {this.props.toggleTask}
                     removeTask = {this.props.removeTask}
+                    editCard   = {this.props.openDraft}
                     removeCard = {this.props.removeCard}
                 />
             </div>

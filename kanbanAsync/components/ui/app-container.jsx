@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(CardActions.addCard(cardObj))
         },
         updateCard: (cardObj) => {
-            dispatch(CardActions.update(cardObj))
+            dispatch(CardActions.updateCard(cardObj))
         },
         removeCard: (cardId) => {
             dispatch(CardActions.removeCard(cardId))  
