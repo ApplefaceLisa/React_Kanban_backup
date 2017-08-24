@@ -197,7 +197,6 @@ export function reduce(state = createInitialState(), action) {
                         .set('cards', state.get('cards').setIn([cardIndex, 'tasks', taskIndex, 'done'],
                                                                 !state.get('cards').getIn([cardIndex, 'tasks', taskIndex, 'done'])));
         case TOGGLE_TASK_SUCCESS:
-            console.log(action.payload);
             return state.set('previousCards', undefined);
             
         case TOGGLE_TASK_FAILURE:
@@ -221,7 +220,6 @@ export function reduce(state = createInitialState(), action) {
                         .set('cards', state.get('cards').deleteIn([cardIndex, 'tasks', taskIndex]));                        
         
         case REMOVE_CARD_SUCCESS:
-            console.log(action.payload);
             return state.set('previousCards', undefined);
             
         case REMOVE_CARD_FAILURE:
